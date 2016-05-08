@@ -1,5 +1,6 @@
 package com.example.bruno.tabs;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,9 +11,11 @@ import android.support.v4.view.PagerAdapter;
  */
 public class MyPagerAdapter extends FragmentPagerAdapter {
     private static int NUM_ITEMS = 2;
+    private Context context;
 
-    public MyPagerAdapter(FragmentManager fragmentManager) {
+    public MyPagerAdapter(FragmentManager fragmentManager, Context context) {
         super(fragmentManager);
+        this.context = context;
     }
 
     // Returns total number of pages
@@ -39,7 +42,14 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
     // Returns the page title for the top indicator
     @Override
     public CharSequence getPageTitle(int position) {
-        return "Page " + position;
+        switch (position) {
+            case 0: // Image tab
+                return context.getResources().getString(R.string.image_tab);
+            case 1: // Histogram tab
+                return context.getResources().getString(R.string.histogram_tab);
+            default:
+                return "Tab";
+        }
     }
 
 }
