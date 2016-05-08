@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">App Name</string>
+    <string name="image_tab">IMAGE</string>
+    <string name="histogram_tab">HISTOGRAM</string>
+</resources>
