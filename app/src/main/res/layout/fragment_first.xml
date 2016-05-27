@@ -10,9 +10,64 @@
         android:id="@+id/tvLabel"
         android:layout_gravity="center_horizontal" />
 
-    <com.example.bruno.tabs.GraphView
+    <RelativeLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/surfaceView"
-        android:layout_gravity="center_horizontal" />
+        android:weightSum="1">
+
+        <com.example.bruno.tabs.GraphView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/surfaceView"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="0dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp" >
+
+        </com.example.bruno.tabs.GraphView>
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/abc_action_bar_default_height_material"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="0dp"
+            android:layout_alignParentTop="false"
+            android:layout_marginTop="1101dp"
+            android:layout_alignParentBottom="true"
+            android:elevation="@dimen/nav_bottom_elevation">
+
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:id="@+id/imageButton"
+                android:layout_gravity="bottom"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_centerVertical="true"
+                android:cropToPadding="false"
+                android:layout_marginLeft="@dimen/nav_bottom_item_left_right_padding"
+                android:layout_marginRight="@dimen/nav_bottom_item_left_right_padding"
+                android:src="@drawable/ic_contrast_circle_black_36dp" />
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nav_bottom_seekbar_height"
+                android:id="@+id/seekBar"
+                android:layout_alignTop="@+id/imageButton"
+                android:layout_toRightOf="@+id/imageButton"
+                android:layout_toEndOf="@+id/imageButton"
+                android:layout_centerVertical="true"
+                android:progressBackgroundTint="@color/seekbar_background_tint"
+                android:progressTint="@color/colorAccent"
+                android:thumbTint="@color/colorAccent"
+                android:minHeight="@dimen/nav_bottom_seekbar_height"
+                android:maxHeight="@dimen/nav_bottom_seekbar_height"
+                android:layout_marginRight="@dimen/nav_bottom_item_left_right_padding" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
 </LinearLayout>

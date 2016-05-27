@@ -27,25 +27,13 @@ class GraphView extends View {
     private void init() {
         pixels = new int[graph_width];
 
-        //pixel line
-//        for (int i = 0; i < graph_width; i += 1) {
-//            pixels[i] = 0xFF0000FF;
-//        }
         paint = new Paint();
         display_metrics = new DisplayMetrics();
         bitmap = Bitmap.createBitmap(graph_width, graph_height,  Bitmap.Config.ARGB_8888);
 
-//        bitmap.setPixels(pixels, 0, graph_width, 0, 0, pixels.length, 1);
-//        bitmap.setPixels(pixels, 0, graph_width, 0, graph_height-1, pixels.length, 1);
-        //set all the pixels on the bitmap
-//        for (int i = 0; i < graph_width; i += 1) {
-//            pixels[i] = 0xFFFFFFFF;
-//        }
-//        pixels[0] = 0xFF0000FF;
-//        pixels[pixels.length-1] = 0xFF0000FF;
         for (int i = 0; i < graph_height; i+=1) {
 
-            //Copy and convert pixels to grayscale
+            //Copy and convert pixels to gray scale
             for (int j = 0; j < graph_width; j+=1) {
                 int color_channel = (int) (((matrix_stub.pixels[i][j] + matrix_boundary) / (2 * matrix_boundary)) * 255);
                 //Color format = ARGB
@@ -85,11 +73,6 @@ class GraphView extends View {
         canvas.drawPaint(paint);
 
         paint.setColor(Color.BLACK);
-//
-//        for (int i = 0; i < canvas.getHeight(); i += 10) {
-//            canvas.drawLine(i, 0, i, canvas.getHeight(), paint);
-//            canvas.drawLine(0, i, canvas.getWidth(), i, paint);
-//        }
 
         canvas.drawBitmap(bitmap, null, bitmap_rect, paint);
 
