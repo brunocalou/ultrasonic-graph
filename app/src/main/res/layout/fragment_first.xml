@@ -37,7 +37,8 @@
             android:layout_alignParentTop="false"
             android:layout_marginTop="1101dp"
             android:layout_alignParentBottom="true"
-            android:elevation="@dimen/nav_bottom_elevation">
+            android:elevation="@dimen/nav_bottom_elevation"
+            android:background="@color/backgroundColor">
 
             <ImageButton
                 android:layout_width="80dp"
@@ -53,17 +54,17 @@
 
             <SeekBar
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/nav_bottom_seekbar_height"
+                android:layout_height="@dimen/abc_action_bar_default_height_material"
                 android:id="@+id/seekBar"
                 android:layout_alignTop="@+id/imageButton"
                 android:layout_toRightOf="@+id/imageButton"
                 android:layout_toEndOf="@+id/imageButton"
                 android:layout_centerVertical="true"
-                android:progressBackgroundTint="@color/seekbar_background_tint"
+                android:progressBackgroundTint="@color/seekbarBackgroundTint"
                 android:progressTint="@color/colorAccent"
                 android:thumbTint="@color/colorAccent"
-                android:minHeight="@dimen/nav_bottom_seekbar_height"
-                android:maxHeight="@dimen/nav_bottom_seekbar_height"
+                android:minHeight="@dimen/abc_action_bar_default_height_material"
+                android:maxHeight="@dimen/abc_action_bar_default_height_material"
                 android:layout_marginRight="@dimen/nav_bottom_item_left_right_padding" />
 
         </RelativeLayout>

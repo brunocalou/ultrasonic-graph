@@ -3,5 +3,6 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="seekbar_background_tint">#424242</color>
+    <color name="seekbarBackgroundTint">#424242</color>
+    <color name="backgroundColor">#FFFFFF</color>
 </resources>
