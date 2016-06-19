@@ -19,7 +19,7 @@
         <com.example.bruno.tabs.GraphView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/surfaceView"
+            android:id="@+id/graphView"
             android:layout_gravity="center_horizontal"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="0dp"
@@ -65,7 +65,10 @@
                 android:thumbTint="@color/colorAccent"
                 android:minHeight="@dimen/abc_action_bar_default_height_material"
                 android:maxHeight="@dimen/abc_action_bar_default_height_material"
-                android:layout_marginRight="@dimen/nav_bottom_item_left_right_padding" />
+                android:layout_marginRight="@dimen/nav_bottom_item_left_right_padding"
+                android:max="510"
+                android:progress="1"
+                android:indeterminate="false" />
 
         </RelativeLayout>
 
