@@ -53,7 +53,7 @@ public class FirstFragment extends Fragment {
         filter_list.add(contrast);
 
         seek_bar = (SeekBar) view.findViewById(R.id.seekBar);
-        seek_bar.setProgress(seek_bar.getMax() /  2);
+        seek_bar.setProgress(seek_bar.getMax() / 2);
         seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
