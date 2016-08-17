@@ -16,4 +16,10 @@ public class FilterList extends LinkedList<Filter> {
             listIterator.next().apply(image);
         }
     }
+    public void apply(Bitmap image, int x, int y) {
+        ListIterator<Filter> listIterator = this.listIterator();
+        while (listIterator.hasNext()) {
+            listIterator.next().apply(image, x, y);
+        }
+    }
 }

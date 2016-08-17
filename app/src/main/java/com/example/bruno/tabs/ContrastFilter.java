@@ -50,11 +50,15 @@ public class ContrastFilter extends Filter {
 
     @Override
     public void apply(Bitmap image) {
-        super.apply(image);
         for (int i = 0; i < image.getWidth(); i++) {
             for (int j = 0; j < image.getHeight(); j++) {
                 image.setPixel(i, j, apply(image.getPixel(i, j)));
             }
         }
+    }
+
+    @Override
+    public void apply(Bitmap image, int x, int y) {
+        image.setPixel(x, y, apply(image.getPixel(x, y)));
     }
 }

@@ -19,49 +19,40 @@ class GraphView extends View {
     private Bitmap bitmap;
     private Bitmap filtered_bitmap;
     private Paint paint;
-    private int graph_width = 50;
-    private int graph_height = 50;
-    private int pixels[];
-    private DisplayMetrics display_metrics;
+    private GraphView instance;
     private RectF bitmap_rect;
-    private MatrixStub matrix_stub = new MatrixStub();
-    private int matrix_boundary = 30;
     private FilterList filter_list;
+    private DataReceiver data_receiver;
 
     public FilterList getFilterList() {
         return filter_list;
     }
 
     private void init() {
-        pixels = new int[graph_width];
+        instance = this;
+        data_receiver = DataReceiver.getInstance();
+
         filter_list = new FilterList();
 
-
         paint = new Paint();
-        display_metrics = new DisplayMetrics();
-        bitmap = Bitmap.createBitmap(graph_width, graph_height, Bitmap.Config.ARGB_8888);
-        filtered_bitmap = Bitmap.createBitmap(graph_width, graph_height, Bitmap.Config.ARGB_8888);
+        bitmap = data_receiver.getBitmap();
 
-        for (int i = 0; i < graph_height; i += 1) {
+        filtered_bitmap = Bitmap.createBitmap(bitmap);
 
-            //Copy and convert pixels to gray scale
-            for (int j = 0; j < graph_width; j += 1) {
-                int color_channel = (int) (((matrix_stub.pixels[i][j] + matrix_boundary) / (2 * matrix_boundary)) * 255);
-                //Color format = ARGB
-                int color = 0x000000FF;
-                //Red channel
-                color = (color << 8) | color_channel;
-                //Green channel
-                color = (color << 8) | color_channel;
-                //Blue channel
-                color = (color << 8) | color_channel;
+        applyFilters();
 
-                pixels[j] = color;
+        data_receiver.addOnBitmapChangedListener(new OnBitmapChangedListener() {
+            @Override
+            public void onBitmapChanged(Bitmap bitmap) {
             }
 
-            bitmap.setPixels(pixels, 0, graph_width, 0, i, pixels.length, 1);
-            filtered_bitmap.setPixels(pixels, 0, graph_width, 0, i, pixels.length, 1);
-        }
+            @Override
+            public void onPixelChanged(int x, int y, int old_pixel, int new_pixel) {
+                filtered_bitmap.setPixel(x, y, new_pixel);
+                filter_list.apply(filtered_bitmap, x, y);
+                instance.postInvalidate();
+            }
+        });
     }
 
     public void applyFilters() {

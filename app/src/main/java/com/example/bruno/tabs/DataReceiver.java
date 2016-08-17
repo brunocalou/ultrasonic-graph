@@ -1,10 +1,13 @@
 package com.example.bruno.tabs;
 
 import android.bluetooth.BluetoothSocket;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by bruno on 16/08/16.
@@ -12,6 +15,15 @@ import java.util.Arrays;
 public class DataReceiver {
 
     private static DataReceiver instance;
+
+    private Bitmap bitmap;
+    private int bitmap_width = 16;
+    private int bitmap_height = 16;
+    private int MAX_X = 1023;
+    private int MAX_Y = 1023;
+    private double MAX_Z = 40000.0d;
+    int [][] height_map;
+    private ArrayList<OnBitmapChangedListener> bitmap_changed_listeners;
 
     ConnectedThread connection;
 
@@ -23,6 +35,9 @@ public class DataReceiver {
     }
 
     private DataReceiver() {
+        bitmap = Bitmap.createBitmap(bitmap_width, bitmap_height, Bitmap.Config.ARGB_8888);
+        height_map = new int[bitmap_width][bitmap_height];
+        bitmap_changed_listeners = new ArrayList<>();
     }
 
     public void startConnection(BluetoothSocket socket) {
@@ -32,7 +47,8 @@ public class DataReceiver {
 
                 @Override
                 public void onDataRead(String data) {
-                    Log.d("DATA", data);
+//                    Log.d("DATA", data);
+                    parseLine(data);
                 }
             });
         }
@@ -41,8 +57,56 @@ public class DataReceiver {
 
     public void finishConnection() {
         //TODO: IOException is occurring when calling this method. Must solve it
-        connection.cancel();
-        connection = null;
+        if (connection != null) {
+            connection.cancel();
+            connection = null;
+        }
     }
+
+    private void parseLine(String line) {
+        try {
+            String[] values = line.replace("s", "").replace("e", "").replace("\n", "").split(" ");
+            if (values.length == 3) {
+            Log.d("LINE", "x = " + values[0] + " y = " + values[1] + " val = " + values[2]);
+                int x = Integer.parseInt(values[0]) * bitmap_width / MAX_X;
+                int y = Integer.parseInt(values[1]) * bitmap_height / MAX_Y;
+                int z = Integer.parseInt(values[2]);
+                height_map[x][y] = z;
+
+                // Color format = ARGB
+                int color = 0x000000FF;
+                int color_channel = (int) (255 * (Math.abs(z) / MAX_Z));
+                Log.d("COLOR", "" + color_channel);
+
+                //Red channel
+                color = (color << 8) | color_channel;
+                //Green channel
+                color = (color << 8) | color_channel;
+                //Blue channel
+                color = (color << 8) | color_channel;
+
+                int old_color = bitmap.getPixel(x, y);
+                if (old_color != color) {
+                    bitmap.setPixel(x, y, color);
+                    // Notify change
+                    for (OnBitmapChangedListener listener : bitmap_changed_listeners) {
+                        listener.onBitmapChanged(bitmap);
+                        listener.onPixelChanged(x, y, old_color, color);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.d("DATARECEIVER", e.toString());
+        }
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void addOnBitmapChangedListener(OnBitmapChangedListener listener) {
+        bitmap_changed_listeners.add(listener);
+    }
+
 
 }
