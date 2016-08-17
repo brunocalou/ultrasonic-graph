@@ -2,4 +2,7 @@
     <string name="app_name">App Name</string>
     <string name="image_tab">IMAGE</string>
     <string name="histogram_tab">HISTOGRAM</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="clear">Clear</string>
+    <string name="filters_button">Filters Button</string>
 </resources>

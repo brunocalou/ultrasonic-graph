@@ -44,8 +44,8 @@ public class FirstFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_first, container, false);
-        TextView tvLabel = (TextView) view.findViewById(R.id.tvLabel);
-        tvLabel.setText(page + " -- " + title);
+//        TextView tvLabel = (TextView) view.findViewById(R.id.tvLabel);
+//        tvLabel.setText(page + " -- " + title);
         graph_view = (GraphView) view.findViewById(R.id.graphView);
 
         //Add filters

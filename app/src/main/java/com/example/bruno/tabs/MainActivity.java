@@ -31,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     BluetoothAdapter mBluetoothAdapter;
     Context context;
     Menu options_menu;
+    private MenuItemImpl connect_button;
+    private MenuItemImpl clear_button;
+    private MenuItemImpl disconnect_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +86,10 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == BluetoothDevicesActivity.CONNECTION_SUCCESS) {
                 // The user has connected
                 Log.d("CONNECT", "The user has connected");
-                MenuItemImpl connect_button = (MenuItemImpl) options_menu.findItem(R.id.connectButton);
                 connect_button.setIcon(R.drawable.ic_toggle_switch_white_24dp);
+
+                disconnect_button.setEnabled(true);
+
                 Toast toast = Toast.makeText(getApplicationContext(), "Connected to " + data.getStringExtra("device_name"), Toast.LENGTH_LONG);
                 toast.show();
             } else if (resultCode == BluetoothDevicesActivity.CONNECTION_ERROR) {
@@ -103,15 +108,39 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
 
-        MenuItemImpl connect_button = (MenuItemImpl) menu.findItem(R.id.connectButton);
+        connect_button = (MenuItemImpl) menu.findItem(R.id.connectButton);
         connect_button.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 Intent connectBtIntent = new Intent(context, BluetoothDevicesActivity.class);
                 startActivityForResult(connectBtIntent, REQUEST_CONNECT_BT);
-                return false;
+                return true;
             }
         });
+
+        clear_button = (MenuItemImpl) menu.findItem(R.id.clearButton);
+        clear_button.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                DataReceiver.getInstance().clearBitmap();
+                return true;
+            }
+        });
+
+        disconnect_button = (MenuItemImpl) menu.findItem(R.id.disconnectButton);
+        disconnect_button.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                item.setEnabled(false);
+                DataReceiver.getInstance().finishConnection();
+                connect_button.setIcon(R.drawable.ic_toggle_switch_off_white_24dp);
+                Toast toast = Toast.makeText(getApplicationContext(), "You are now disconnected", Toast.LENGTH_LONG);
+                toast.show();
+                return true;
+            }
+        });
+
+        disconnect_button.setEnabled(false);
         return true;
     }
 

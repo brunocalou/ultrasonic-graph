@@ -3,14 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <group>
         <item
-            android:id="@+id/nav_first_fragment"
-            android:title="First" />
+            android:id="@+id/disconnectButton"
+            android:title="@string/disconnect" />
         <item
-            android:id="@+id/nav_second_fragment"
-            android:title="Second" />
-        <item
-            android:id="@+id/nav_third_fragment"
-            android:title="Third" />
+            android:id="@+id/clearButton"
+            android:title="@string/clear" />
     </group>
 
     <item

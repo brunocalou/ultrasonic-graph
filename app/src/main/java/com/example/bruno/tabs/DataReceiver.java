@@ -35,9 +35,10 @@ public class DataReceiver {
     }
 
     private DataReceiver() {
-        bitmap = Bitmap.createBitmap(bitmap_width, bitmap_height, Bitmap.Config.ARGB_8888);
-        height_map = new int[bitmap_width][bitmap_height];
         bitmap_changed_listeners = new ArrayList<>();
+        bitmap = Bitmap.createBitmap(bitmap_width, bitmap_height, Bitmap.Config.ARGB_8888);
+        clearBitmap();
+        height_map = new int[bitmap_width][bitmap_height];
     }
 
     public void startConnection(BluetoothSocket socket) {
@@ -104,9 +105,18 @@ public class DataReceiver {
         return bitmap;
     }
 
+    public void clearBitmap() {
+        for (int i = 0; i < bitmap.getWidth(); i++) {
+            for (int j = 0; j < bitmap.getHeight(); j++) {
+                bitmap.setPixel(i, j, 0xFFFFFFFF);
+            }
+        }
+        for (OnBitmapChangedListener listener : bitmap_changed_listeners) {
+            listener.onBitmapCleared(bitmap);
+        }
+    }
+
     public void addOnBitmapChangedListener(OnBitmapChangedListener listener) {
         bitmap_changed_listeners.add(listener);
     }
-
-
 }

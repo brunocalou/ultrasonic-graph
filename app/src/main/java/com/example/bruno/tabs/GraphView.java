@@ -52,6 +52,12 @@ class GraphView extends View {
                 filter_list.apply(filtered_bitmap, x, y);
                 instance.postInvalidate();
             }
+
+            @Override
+            public void onBitmapCleared(Bitmap bitmap) {
+                applyFilters();
+                instance.postInvalidate();
+            }
         });
     }
 
