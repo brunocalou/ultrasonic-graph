@@ -45,14 +45,6 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Initialize the ViewPager and set an adapter
-        ViewPager pager = (ViewPager) view.findViewById(R.id.view_pager);
-        pager.setAdapter(new MyPagerAdapter(getActivity().getSupportFragmentManager(), getContext()));
-
-        // Bind the tabs to the ViewPager
-        MaterialTabs tabs = (MaterialTabs) view.findViewById(R.id.tabs);
-        tabs.setViewPager(pager);
-
         // Initializes Bluetooth adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -76,6 +68,19 @@ public class HomeFragment extends Fragment {
         }
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Initialize the ViewPager and set an adapter
+        ViewPager pager = (ViewPager) view.findViewById(R.id.view_pager);
+        pager.setAdapter(new MyPagerAdapter(getChildFragmentManager(), getContext()));
+
+        // Bind the tabs to the ViewPager
+        MaterialTabs tabs = (MaterialTabs) view.findViewById(R.id.tabs);
+        tabs.setViewPager(pager);
     }
 
     @Override

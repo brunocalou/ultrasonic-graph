@@ -5,13 +5,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
     Toolbar toolbar;
     NavigationView nvDrawer;
     private DrawerLayout mDrawer;
@@ -29,70 +30,44 @@ public class MainActivity extends AppCompatActivity {
 
         // Find our drawer view
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
-        // Setup drawer view
-        setupDrawerContent(nvDrawer);
 
         // Find our drawer view
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        selectDrawerItem(nvDrawer.getMenu().findItem(R.id.nav_home));
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nvView);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        onNavigationItemSelected(nvDrawer.getMenu().findItem(R.id.nav_home));
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // The action bar home/up action should open or close the drawer.
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawer.openDrawer(GravityCompat.START);
-                return true;
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
-    // `onPostCreate` called when activity start-up is complete after `onStart()`
-    // NOTE! Make sure to override the method with only a single `Bundle` argument
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-    }
-
-
-    private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        selectDrawerItem(menuItem);
-                        return true;
-                    }
-                });
-    }
-
-    public void selectDrawerItem(MenuItem menuItem) {
+    public boolean onNavigationItemSelected(MenuItem item) {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
-        Class fragmentClass = null;
-        switch (menuItem.getItemId()) {
-            case R.id.nav_home:
-                fragmentClass = HomeFragment.class;
-                break;
-            case R.id.nav_help:
-                fragmentClass = HelpFragment.class;
-                break;
-            case R.id.nav_saved:
-                fragmentClass = SavedFragment.class;
-                break;
-            default:
-                fragmentClass = HomeFragment.class;
-        }
+        int id = item.getItemId();
 
-        try {
-            if (fragmentClass != null) {
-                fragment = (Fragment) fragmentClass.newInstance();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (id == R.id.nav_home) {
+            fragment = new HomeFragment();
+        } else if (id == R.id.nav_help) {
+            fragment = new HelpFragment();
+        } else if (id == R.id.nav_saved) {
+            fragment = new SavedFragment();
         }
 
         // Insert the fragment by replacing any existing fragment
@@ -100,11 +75,12 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
 
         // Highlight the selected item has been done by NavigationView
-        menuItem.setChecked(true);
+        item.setChecked(true);
         // Set action bar title
-        setTitle(menuItem.getTitle());
+        setTitle(item.getTitle());
         // Close the navigation drawer
         mDrawer.closeDrawers();
-    }
 
+        return true;
+    }
 }
