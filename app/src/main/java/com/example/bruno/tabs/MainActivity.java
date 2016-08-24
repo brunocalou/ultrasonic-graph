@@ -84,4 +84,10 @@ public class MainActivity extends AppCompatActivity
 
         return true;
     }
+
+    @Override
+    protected void onDestroy() {
+        DataReceiver.getInstance().finishConnection();
+        super.onDestroy();
+    }
 }

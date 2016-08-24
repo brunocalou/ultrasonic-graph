@@ -90,7 +90,7 @@ public class HomeFragment extends Fragment {
             if (resultCode == BluetoothDevicesActivity.CONNECTION_SUCCESS) {
                 // The user has connected
                 Log.d("CONNECT", "The user has connected");
-                connect_button.setIcon(R.drawable.ic_toggle_switch_white_24dp);
+                setConnectButton(true);
 
                 disconnect_button.setEnabled(true);
 
@@ -108,6 +108,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
 
     // Menu icons are inflated just as they were with actionbar
@@ -144,20 +145,26 @@ public class HomeFragment extends Fragment {
             public boolean onMenuItemClick(MenuItem item) {
                 item.setEnabled(false);
                 DataReceiver.getInstance().finishConnection();
-                connect_button.setIcon(R.drawable.ic_toggle_switch_off_white_24dp);
+                setConnectButton(false);
                 Toast toast = Toast.makeText(getContext(), "You are now disconnected", Toast.LENGTH_LONG);
                 toast.show();
                 return true;
             }
         });
 
-        disconnect_button.setEnabled(false);
+        if (!DataReceiver.getInstance().isConnected()) {
+                disconnect_button.setEnabled(false);
+                setConnectButton(false);
+        } else {
+            setConnectButton(true);
+        }
     }
 
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        DataReceiver.getInstance().finishConnection();
+    private void setConnectButton(Boolean connected) {
+        if (connected) {
+            connect_button.setIcon(R.drawable.ic_toggle_switch_white_24dp);
+        } else {
+            connect_button.setIcon(R.drawable.ic_toggle_switch_off_white_24dp);
+        }
     }
 }

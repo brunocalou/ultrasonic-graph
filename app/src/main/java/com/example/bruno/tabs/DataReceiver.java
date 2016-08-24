@@ -56,6 +56,13 @@ public class DataReceiver {
         connection.start();
     }
 
+    public Boolean isConnected() {
+        if (connection != null) {
+            return connection.isAlive();
+        }
+        return false;
+    }
+
     public void finishConnection() {
         //TODO: IOException is occurring when calling this method. Must solve it
         if (connection != null) {
