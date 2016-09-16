@@ -83,7 +83,7 @@ public class DataReceiver {
 
                 // Color format = ARGB
                 int color = 0x000000FF;
-                int color_channel = (int) (255 * (Math.abs(z) / MAX_Z));
+                int color_channel = (int) (255 * (1 - (Math.abs(z) / MAX_Z))); //The "1 - " inverts the color
                 Log.d("COLOR", "" + color_channel);
 
                 //Red channel
