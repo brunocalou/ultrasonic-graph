@@ -16,6 +16,7 @@ public class ConnectedThread extends Thread {
     private final InputStream mmInStream;
     private final OutputStream mmOutStream;
     private OnDataReadListener onDataReadListener;
+    private boolean isRunning;
 
     public ConnectedThread(BluetoothSocket socket) {
         mmSocket = socket;
@@ -40,9 +41,11 @@ public class ConnectedThread extends Thread {
         int bytes; // bytes returned from read()
         int end = 0;
         int end_of_line = (int) '\r';
-        String line = "";
+        String line;
+        isRunning = true;
         // Keep listening to the InputStream until an exception occurs
-        while (true) {
+        while (isRunning) {
+//            Log.d("Connected thread", "Connected");
             try {
                 if (mmInStream.available() > 10) {
                     // Read from the InputStream
@@ -72,6 +75,7 @@ public class ConnectedThread extends Thread {
                 break;
             }
         }
+        Log.d("Connection", "Connection closed");
     }
 
     /* Call this from the main activity to send data to the remote device */
@@ -85,6 +89,7 @@ public class ConnectedThread extends Thread {
 
     /* Call this from the main activity to shutdown the connection */
     public void cancel() {
+        isRunning = false;
         try {
             mmSocket.close();
         } catch (IOException e) {

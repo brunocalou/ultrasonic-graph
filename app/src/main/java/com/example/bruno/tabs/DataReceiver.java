@@ -42,17 +42,24 @@ public class DataReceiver {
     }
 
     public void startConnection(BluetoothSocket socket) {
-        if (connection == null) {
-            connection = new ConnectedThread(socket);
-            connection.setOnDataReadListener(new OnDataReadListener() {
-
-                @Override
-                public void onDataRead(String data) {
-//                    Log.d("DATA", data);
-                    parseLine(data);
-                }
-            });
+        if (connection != null) {
+            connection.cancel();
+            try {
+                connection.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            connection = null;
         }
+
+        connection = new ConnectedThread(socket);
+        connection.setOnDataReadListener(new OnDataReadListener() {
+
+            @Override
+            public void onDataRead(String data) {
+                parseLine(data);
+            }
+        });
         connection.start();
     }
 
@@ -75,7 +82,6 @@ public class DataReceiver {
         try {
             String[] values = line.replace("s", "").replace("e", "").replace("\n", "").split(" ");
             if (values.length == 3) {
-            Log.d("LINE", "x = " + values[0] + " y = " + values[1] + " val = " + values[2]);
                 int x = Integer.parseInt(values[0]) * bitmap_width / MAX_X;
                 int y = Integer.parseInt(values[1]) * bitmap_height / MAX_Y;
                 int z = Integer.parseInt(values[2]);
@@ -84,7 +90,6 @@ public class DataReceiver {
                 // Color format = ARGB
                 int color = 0x000000FF;
                 int color_channel = (int) (255 * (1 - (Math.abs(z) / MAX_Z))); //The "1 - " inverts the color
-                Log.d("COLOR", "" + color_channel);
 
                 //Red channel
                 color = (color << 8) | color_channel;
