@@ -9,6 +9,7 @@ import android.util.Log;
  */
 public class ContrastFilter extends Filter {
     private double factor = 0.0; // Contrast correction factor
+
     private int contrast = 0; // Contrast level (from -255 to 255)
 
     public void setContrast(int contrast) {
@@ -19,6 +20,10 @@ public class ContrastFilter extends Filter {
         }
         this.contrast = contrast;
         this.factor = 259 * (this.contrast + 255) / (double) (255 * (259 - this.contrast));
+    }
+
+    public int getContrast() {
+        return contrast;
     }
 
     private int truncate (int color) {

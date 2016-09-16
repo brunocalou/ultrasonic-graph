@@ -4,16 +4,15 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 
 /**
  * Created by bruno on 08/05/16.
  */
-public class MyPagerAdapter extends FragmentPagerAdapter {
+public class HomePagerAdapter extends FragmentPagerAdapter {
     private static int NUM_ITEMS = 2;
     private Context context;
 
-    public MyPagerAdapter(FragmentManager fragmentManager, Context context) {
+    public HomePagerAdapter(FragmentManager fragmentManager, Context context) {
         super(fragmentManager);
         this.context = context;
     }
@@ -28,12 +27,10 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: // Fragment # 0 - This will show FirstFragment
-                return FirstFragment.newInstance(0, "Page # 1");
-            case 1: // Fragment # 0 - This will show FirstFragment different title
-                return FirstFragment.newInstance(1, "Page # 2");
-//            case 2: // Fragment # 1 - This will show SecondFragment
-//                return SecondFragment.newInstance(2, "Page # 3");
+            case 0: // Image
+                return new HomeImageFragment();
+            case 1: // Histogram
+                return new HomeImageFragment();
             default:
                 return null;
         }

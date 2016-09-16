@@ -1,16 +1,13 @@
 package com.example.bruno.tabs;
 
 import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuItemImpl;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -76,7 +73,7 @@ public class HomeFragment extends Fragment {
 
         // Initialize the ViewPager and set an adapter
         ViewPager pager = (ViewPager) view.findViewById(R.id.view_pager);
-        pager.setAdapter(new MyPagerAdapter(getChildFragmentManager(), getContext()));
+        pager.setAdapter(new HomePagerAdapter(getChildFragmentManager(), getContext()));
 
         // Bind the tabs to the ViewPager
         MaterialTabs tabs = (MaterialTabs) view.findViewById(R.id.tabs);
@@ -108,7 +105,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
+//        setRetainInstance(true);
     }
 
     // Menu icons are inflated just as they were with actionbar
