@@ -48,7 +48,6 @@ public class HomeImageFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
         return view;

@@ -29,6 +29,7 @@ class GraphView extends View {
     }
 
     private void init() {
+        //TODO: Remove DataReceiver dependency from this class
         instance = this;
         data_receiver = DataReceiver.getInstance();
 
@@ -70,6 +71,8 @@ class GraphView extends View {
         }
         //Apply the filters
         filter_list.apply(filtered_bitmap);
+
+        invalidate();
     }
 
     public GraphView(Context context, AttributeSet attrs) {
