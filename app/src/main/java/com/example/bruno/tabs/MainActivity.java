@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity
     NavigationView nvDrawer;
     private DrawerLayout mDrawer;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

@@ -7,4 +7,8 @@
     <string name="filters_button">Filters Button</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="dialog_save_name">Name</string>
+    <string name="dialog_ok">Ok</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_save_title">New Item</string>
 </resources>

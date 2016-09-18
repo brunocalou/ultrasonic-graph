@@ -24,7 +24,7 @@ import io.karim.MaterialTabs;
 /**
  * Created by bruno on 22/08/16.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements SaveNewItemDialogFragment.SaveNewItemDialogListener {
 
     BluetoothAdapter mBluetoothAdapter;
     private final static int REQUEST_ENABLE_BT = 1;
@@ -158,7 +158,7 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 //Open a dialog asking the name of the item to save
-                homeImageFragment.save("NAME");
+                showSaveDialog();
                 return true;
             }
         });
@@ -177,5 +177,16 @@ public class HomeFragment extends Fragment {
         } else {
             connect_button.setIcon(R.drawable.ic_toggle_switch_off_white_24dp);
         }
+    }
+
+    private void showSaveDialog() {
+        SaveNewItemDialogFragment dialog = new SaveNewItemDialogFragment();
+        dialog.setTargetFragment(HomeFragment.this, 300);
+        dialog.show(getActivity().getSupportFragmentManager(), "saveNewItemDialog");
+    }
+
+    @Override
+    public void onFinishSaveNewItemDialog(String name) {
+        homeImageFragment.save(name);
     }
 }
