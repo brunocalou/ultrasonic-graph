@@ -14,8 +14,8 @@ public class DataReceiver {
     private static DataReceiver instance;
 
     private Bitmap bitmap;
-    private int bitmap_width = 16;
-    private int bitmap_height = 16;
+    private int bitmap_width = Item.HEIGHT_MAP_WIDTH;
+    private int bitmap_height = Item.HEIGHT_MAP_HEIGHT;
     private int MAX_X = 1023;
     private int MAX_Y = 1023;
     private double MAX_Z = 40000.0d;
@@ -36,6 +36,7 @@ public class DataReceiver {
         bitmap = Bitmap.createBitmap(bitmap_width, bitmap_height, Bitmap.Config.ARGB_8888);
         clearBitmap();
         heightMap = new int[bitmap_width][bitmap_height];
+//        fillWithRandomData();
     }
 
     public void startConnection(BluetoothSocket socket) {
@@ -84,17 +85,7 @@ public class DataReceiver {
                 int z = Integer.parseInt(values[2]);
                 heightMap[x][y] = z;
 
-                // Color format = ARGB
-                int color = 0x000000FF;
-                int color_channel = (int) (255 * (1 - (Math.abs(z) / MAX_Z))); //The "1 - " inverts the color
-
-                //Red channel
-                color = (color << 8) | color_channel;
-                //Green channel
-                color = (color << 8) | color_channel;
-                //Blue channel
-                color = (color << 8) | color_channel;
-
+                int color = getColor(z);
                 int old_color = bitmap.getPixel(x, y);
                 if (old_color != color) {
                     bitmap.setPixel(x, y, color);
@@ -131,5 +122,30 @@ public class DataReceiver {
 
     public void addOnBitmapChangedListener(OnBitmapChangedListener listener) {
         bitmap_changed_listeners.add(listener);
+    }
+
+    private int getColor(int z) {
+        // Color format = ARGB
+        int color = 0x000000FF;
+        int color_channel = (int) (255 * (1 - (Math.abs(z) / MAX_Z))); //The "1 - " inverts the color
+
+        //Red channel
+        color = (color << 8) | color_channel;
+        //Green channel
+        color = (color << 8) | color_channel;
+        //Blue channel
+        color = (color << 8) | color_channel;
+
+        return color;
+    }
+
+    // Method to fill the heightMap and the bitmap with random data. Used to debug only
+    public void fillWithRandomData() {
+        for (int i = 0; i < heightMap.length; i++) {
+            for (int j = 0; j < heightMap.length; j++) {
+                heightMap[i][j] = (int) (Math.random() * MAX_Z);
+                bitmap.setPixel(i, j, getColor(heightMap[i][j]));
+            }
+        }
     }
 }

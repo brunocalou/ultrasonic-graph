@@ -36,6 +36,7 @@ public class ItemsDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_ITEM_FILTERS_ID_FK = "filtersId"; //Foreign key for the filters table
     private static final String KEY_ITEM_NAME = "name";
     private static final String KEY_ITEM_CREATION_DATE = "creationDate";
+    private static final String KEY_ITEM_HEIGHT_MAP = "heightMap";
 
     // Filter table columns
     private static final String KEY_FILTERS_ID = "id";
@@ -76,7 +77,8 @@ public class ItemsDatabaseHelper extends SQLiteOpenHelper {
                     KEY_ITEM_ID + " INTEGER PRIMARY KEY," + // Define a primary key
                     KEY_ITEM_FILTERS_ID_FK + " INTEGER REFERENCES " + TABLE_FILTERS + "," + // Define a foreign key
                     KEY_ITEM_NAME + " TEXT," +
-                    KEY_ITEM_CREATION_DATE + " STRING" +
+                    KEY_ITEM_HEIGHT_MAP + " TEXT," +
+                    KEY_ITEM_CREATION_DATE + " TEXT" +
                 ")";
 
         String CREATE_FILTERS_TABLE = "CREATE TABLE " + TABLE_FILTERS +
@@ -128,6 +130,7 @@ public class ItemsDatabaseHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(KEY_ITEM_FILTERS_ID_FK, item.filtersConfiguration._id);
             values.put(KEY_ITEM_NAME, item.name);
+            values.put(KEY_ITEM_HEIGHT_MAP, item.getFormattedHeightMap());
             values.put(KEY_ITEM_CREATION_DATE, item.getFormattedCreationDate());
 
             // Notice how we haven't specified the primary key. SQLite auto increments the primary key column.
@@ -196,6 +199,7 @@ public class ItemsDatabaseHelper extends SQLiteOpenHelper {
                     newItem.name = cursor.getString(cursor.getColumnIndex(KEY_ITEM_NAME));
                     newItem.creationDate = date;
                     newItem.filtersConfiguration = newFiltersConfiguration;
+                    newItem.setFormattedHeightMap(cursor.getString(cursor.getColumnIndex(KEY_ITEM_HEIGHT_MAP)));
 
                     items.add(newItem);
 
@@ -218,7 +222,8 @@ public class ItemsDatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_ITEM_NAME, item.name);
-        values.put(KEY_ITEM_CREATION_DATE, item.creationDate.toString());
+        values.put(KEY_ITEM_HEIGHT_MAP, item.getFormattedHeightMap());
+        values.put(KEY_ITEM_CREATION_DATE, item.getFormattedCreationDate());
 
         // Updating item
         return db.update(TABLE_ITEMS, values, KEY_ITEM_ID + " = ?",
