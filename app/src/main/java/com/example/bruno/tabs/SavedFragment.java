@@ -28,15 +28,10 @@ public class SavedFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Construct the data source
-        ArrayList<SavedItem> savedItems = new ArrayList<SavedItem>();
-
-        //TODO: Remove stub
-        //Fill the adapter
-        savedItems.add(new SavedItem("Cube", new Date(), null));
-        savedItems.add(new SavedItem("Sphere", new Date(), null));
+        ArrayList<Item> items = ItemsDatabaseHelper.getInstance(getContext()).getAllItems();
 
         // Create the adapter to convert the array to views
-        SavedItemAdapter adapter = new SavedItemAdapter(getContext(), savedItems);
+        SavedItemAdapter adapter = new SavedItemAdapter(getContext(), items);
         // Attach the adapter to a ListView
         ListView listView = (ListView) view.findViewById(R.id.lvSavedItems);
         listView.setAdapter(adapter);

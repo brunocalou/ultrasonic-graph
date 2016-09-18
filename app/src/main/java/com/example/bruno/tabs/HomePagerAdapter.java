@@ -11,10 +11,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 public class HomePagerAdapter extends FragmentPagerAdapter {
     private static int NUM_ITEMS = 2;
     private Context context;
+    private HomeImageFragment homeImageFragment;
 
     public HomePagerAdapter(FragmentManager fragmentManager, Context context) {
         super(fragmentManager);
         this.context = context;
+        homeImageFragment = new HomeImageFragment();
     }
 
     // Returns total number of pages
@@ -28,7 +30,7 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: // Image
-                return new HomeImageFragment();
+                return homeImageFragment;
             case 1: // Histogram
                 return new HomeImageFragment();
             default:
@@ -49,4 +51,7 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
         }
     }
 
+    public HomeImageFragment getHomeImageFragment() {
+        return homeImageFragment;
+    }
 }

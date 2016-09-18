@@ -4,10 +4,7 @@ import android.bluetooth.BluetoothSocket;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by bruno on 16/08/16.
@@ -22,7 +19,7 @@ public class DataReceiver {
     private int MAX_X = 1023;
     private int MAX_Y = 1023;
     private double MAX_Z = 40000.0d;
-    int [][] height_map;
+    private int [][] heightMap;
     private ArrayList<OnBitmapChangedListener> bitmap_changed_listeners;
 
     ConnectedThread connection;
@@ -38,7 +35,7 @@ public class DataReceiver {
         bitmap_changed_listeners = new ArrayList<>();
         bitmap = Bitmap.createBitmap(bitmap_width, bitmap_height, Bitmap.Config.ARGB_8888);
         clearBitmap();
-        height_map = new int[bitmap_width][bitmap_height];
+        heightMap = new int[bitmap_width][bitmap_height];
     }
 
     public void startConnection(BluetoothSocket socket) {
@@ -85,7 +82,7 @@ public class DataReceiver {
                 int x = Integer.parseInt(values[0]) * bitmap_width / MAX_X;
                 int y = Integer.parseInt(values[1]) * bitmap_height / MAX_Y;
                 int z = Integer.parseInt(values[2]);
-                height_map[x][y] = z;
+                heightMap[x][y] = z;
 
                 // Color format = ARGB
                 int color = 0x000000FF;
@@ -126,6 +123,10 @@ public class DataReceiver {
         for (OnBitmapChangedListener listener : bitmap_changed_listeners) {
             listener.onBitmapCleared(bitmap);
         }
+    }
+
+    public int[][] getHeightMap() {
+        return heightMap;
     }
 
     public void addOnBitmapChangedListener(OnBitmapChangedListener listener) {

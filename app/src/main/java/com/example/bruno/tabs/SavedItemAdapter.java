@@ -13,16 +13,16 @@ import java.util.ArrayList;
 /**
  * Created by bruno on 17/09/2016.
  */
-public class SavedItemAdapter extends ArrayAdapter<SavedItem> {
+public class SavedItemAdapter extends ArrayAdapter<Item> {
 
-    public SavedItemAdapter(Context context, ArrayList<SavedItem> savedItems) {
-        super(context, R.layout.saved_item, savedItems);
+    public SavedItemAdapter(Context context, ArrayList<Item> items) {
+        super(context, R.layout.saved_item, items);
     }
 
 //    @Override
 //    public View getView(int position, View convertView, ViewGroup parent) {
 //        // Get the data item for this position
-//        SavedItem savedItem = getItem(position);
+//        Item savedItem = getItem(position);
 //        // Check if an existing view is being reused, otherwise inflate the view
 //        if (convertView == null) {
 //            convertView = LayoutInflater.from(getContext()).inflate(R.layout.saved_item, parent, false);
@@ -46,7 +46,7 @@ public class SavedItemAdapter extends ArrayAdapter<SavedItem> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        SavedItem savedItem = getItem(position);
+        Item item = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder; // view lookup cache stored in tag
         if (convertView == null) {
@@ -63,8 +63,8 @@ public class SavedItemAdapter extends ArrayAdapter<SavedItem> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         // Populate the data into the template view using the data object
-        viewHolder.name.setText(savedItem.name);
-        viewHolder.date.setText(new SimpleDateFormat("dd-MM-yyyy").format(savedItem.creationDate));
+        viewHolder.name.setText(item.name);
+        viewHolder.date.setText(item.getFormattedCreationDate());
         // Return the completed view to render on screen
         return convertView;
     }

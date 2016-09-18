@@ -2,10 +2,13 @@ package com.example.bruno.tabs;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
+
+import java.util.Date;
 
 /**
  * Created by bruno on 08/05/16.
@@ -63,5 +66,18 @@ public class HomeImageFragment extends Fragment {
     private void setFilterValue(int value) {
         contrast.setContrast(value);
         seek_bar.setProgress(seek_bar.getMax() / 2 + value);
+    }
+
+    public void save(String name) {
+        Log.d(getClass().getSimpleName(), "Saving " + name);
+        Item item = new Item();
+        item.name = name;
+        item.creationDate = new Date();
+        item.heightMap = DataReceiver.getInstance().getHeightMap();
+        item.filtersConfiguration = new FiltersConfiguration();
+        item.filtersConfiguration.contrast = contrast.getContrast();
+
+        ItemsDatabaseHelper.getInstance(getContext()).addItem(item);
+
     }
 }

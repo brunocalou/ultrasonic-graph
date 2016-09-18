@@ -34,6 +34,8 @@ public class HomeFragment extends Fragment {
     private MenuItemImpl connect_button;
     private MenuItemImpl clear_button;
     private MenuItemImpl disconnect_button;
+    private MenuItemImpl save_button;
+    private HomeImageFragment homeImageFragment;
 
     @Nullable
     @Override
@@ -73,7 +75,9 @@ public class HomeFragment extends Fragment {
 
         // Initialize the ViewPager and set an adapter
         ViewPager pager = (ViewPager) view.findViewById(R.id.view_pager);
-        pager.setAdapter(new HomePagerAdapter(getChildFragmentManager(), getContext()));
+        HomePagerAdapter homePagerAdapter = new HomePagerAdapter(getChildFragmentManager(), getContext());
+        pager.setAdapter(homePagerAdapter);
+        homeImageFragment = homePagerAdapter.getHomeImageFragment();
 
         // Bind the tabs to the ViewPager
         MaterialTabs tabs = (MaterialTabs) view.findViewById(R.id.tabs);
@@ -145,6 +149,16 @@ public class HomeFragment extends Fragment {
                 setConnectButton(false);
                 Toast toast = Toast.makeText(getContext(), "You are now disconnected", Toast.LENGTH_LONG);
                 toast.show();
+                return true;
+            }
+        });
+
+        save_button = (MenuItemImpl) menu.findItem(R.id.saveButton);
+        save_button.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                //Open a dialog asking the name of the item to save
+                homeImageFragment.save("NAME");
                 return true;
             }
         });
