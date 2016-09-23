@@ -7,10 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.View;
-
-import java.util.ListIterator;
 
 /**
  * Created by bruno on 17/05/16.
@@ -22,44 +19,28 @@ class GraphView extends View {
     private GraphView instance;
     private RectF bitmap_rect;
     private FilterList filter_list;
-    private DataReceiver data_receiver;
 
     public FilterList getFilterList() {
         return filter_list;
     }
 
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+        filtered_bitmap = Bitmap.createBitmap(bitmap);
+    }
+
+    public Bitmap getFilteredBitmap() {
+        return filtered_bitmap;
+    }
+
     private void init() {
-        //TODO: Remove DataReceiver dependency from this class
         instance = this;
-        data_receiver = DataReceiver.getInstance();
-
         filter_list = new FilterList();
-
         paint = new Paint();
-        bitmap = data_receiver.getBitmap();
-
+        bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
         filtered_bitmap = Bitmap.createBitmap(bitmap);
 
         applyFilters();
-
-        data_receiver.addOnBitmapChangedListener(new OnBitmapChangedListener() {
-            @Override
-            public void onBitmapChanged(Bitmap bitmap) {
-            }
-
-            @Override
-            public void onPixelChanged(int x, int y, int old_pixel, int new_pixel) {
-                filtered_bitmap.setPixel(x, y, new_pixel);
-                filter_list.apply(filtered_bitmap, x, y);
-                instance.postInvalidate();
-            }
-
-            @Override
-            public void onBitmapCleared(Bitmap bitmap) {
-                applyFilters();
-                instance.postInvalidate();
-            }
-        });
     }
 
     public void applyFilters() {

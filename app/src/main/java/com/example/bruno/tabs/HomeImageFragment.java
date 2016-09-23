@@ -1,5 +1,6 @@
 package com.example.bruno.tabs;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,12 +18,14 @@ public class HomeImageFragment extends Fragment {
     private SeekBar seek_bar;
     private ContrastFilter contrast;
     private GraphView graph_view;
+    private DataReceiver data_receiver;
 
     // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         contrast = new ContrastFilter();
+        data_receiver = DataReceiver.getInstance();
     }
 
     // Inflate the view for the fragment based on layout XML
@@ -33,7 +36,7 @@ public class HomeImageFragment extends Fragment {
         graph_view = (GraphView) view.findViewById(R.id.graphView);
 
         //Add filters
-        FilterList filter_list = graph_view.getFilterList();
+        final FilterList filter_list = graph_view.getFilterList();
         filter_list.add(contrast);
 
         seek_bar = (SeekBar) view.findViewById(R.id.seekBar);
@@ -51,6 +54,29 @@ public class HomeImageFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        graph_view.setBitmap(data_receiver.getBitmap());
+
+        data_receiver.addOnBitmapChangedListener(new OnBitmapChangedListener() {
+
+            Bitmap filtered_bitmap = graph_view.getFilteredBitmap();
+
+            @Override
+            public void onBitmapChanged(Bitmap bitmap) {
+            }
+
+            @Override
+            public void onPixelChanged(int x, int y, int old_pixel, int new_pixel) {
+                filtered_bitmap.setPixel(x, y, new_pixel);
+                filter_list.apply(filtered_bitmap, x, y);
+                graph_view.postInvalidate();
+            }
+
+            @Override
+            public void onBitmapCleared(Bitmap bitmap) {
+                graph_view.applyFilters();
             }
         });
         return view;
