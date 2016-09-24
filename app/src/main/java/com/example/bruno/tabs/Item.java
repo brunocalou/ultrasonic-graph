@@ -3,6 +3,7 @@ package com.example.bruno.tabs;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -65,6 +66,14 @@ public class Item {
                 }
             }
         }
+    }
 
+    @Override
+    public String toString() {
+        return
+                "name=" + name + '\n' +
+                "creationDate=" + getFormattedCreationDate() + '\n' +
+                "heightMap=" + '\n' + getFormattedHeightMap() + '\n' +
+                filtersConfiguration.toString();
     }
 }

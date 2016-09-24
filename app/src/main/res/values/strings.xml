@@ -15,4 +15,6 @@
     <string name="delete_dialog_message">This action will delete this saved item. Are you sure?</string>
     <string name="delete_dialog_positive">Delete</string>
     <string name="delete_dialog_negative">Cancel</string>
+    <string name="share_dialog_title">Share with...</string>
+    <string name="email_subject">Data and image</string>
 </resources>

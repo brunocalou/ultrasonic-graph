@@ -2,14 +2,22 @@ package com.example.bruno.tabs;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import io.karim.MaterialTabs;
 
@@ -91,6 +99,42 @@ public class ItemViewActivity extends AppCompatActivity {
             dialog.show();
 
         } else if (id == R.id.shareButton) {
+            // See http://stackoverflow.com/questions/9049143/android-share-intent-for-a-bitmap-is-it-possible-not-to-save-it-prior-sharing
+            // Save bitmap to cache directory
+            try {
+
+                File cachePath = new File(getCacheDir(), "images");
+                cachePath.mkdirs(); // don't forget to make the directory
+                FileOutputStream stream = new FileOutputStream(cachePath + "/image.png"); // overwrites this image every time
+                Bitmap originalBitmap = itemViewImageFragment.graph_view.getBitmap();
+                int scaleFactor = 60;
+                Bitmap.createScaledBitmap(
+                        originalBitmap,
+                        originalBitmap.getWidth() * scaleFactor,
+                        originalBitmap.getHeight() * scaleFactor,
+                        false)
+                        .compress(Bitmap.CompressFormat.PNG, 100, stream);
+                stream.close();
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            File imagePath = new File(getCacheDir(), "images");
+            File newFile = new File(imagePath, "image.png");
+            Uri contentUri = FileProvider.getUriForFile(getApplicationContext(), "com.example.bruno.tabs.fileprovider", newFile);
+
+            // Create the share intent
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
+            shareIntent.putExtra(Intent.EXTRA_TEXT, this.item.toString());
+            shareIntent.setDataAndType(contentUri, getContentResolver().getType(contentUri));
+            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.email_subject));
+            startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.share_dialog_title)));
 
         } else if (id == android.R.id.home) {
             onBackPressed();

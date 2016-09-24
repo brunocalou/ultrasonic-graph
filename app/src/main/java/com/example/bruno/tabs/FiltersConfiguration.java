@@ -6,4 +6,10 @@ package com.example.bruno.tabs;
 public class FiltersConfiguration {
     public long _id = -1;
     public int contrast = 0;
+
+    @Override
+    public String toString() {
+        return
+                "contrast=" + contrast;
+    }
 }
