@@ -291,9 +291,10 @@ public class ItemsDatabaseHelper extends SQLiteOpenHelper {
     // Delete the item and the related filter configuration
     public int deleteItem(Item item) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_FILTERS, KEY_FILTERS_ID + " = ?", new String[] { String.valueOf(item.filtersConfiguration._id) });
+        db.delete(TABLE_ITEMS, KEY_ITEM_ID + " = ?", new String[] { String.valueOf(item._id) });
 
-        return db.delete(TABLE_ITEMS, KEY_ITEM_ID + " = ?", new String[] { String.valueOf(item._id) });
+        return db.delete(TABLE_FILTERS, KEY_FILTERS_ID + " = ?", new String[] { String.valueOf(item.filtersConfiguration._id) });
+
     }
 
     // Delete all items and filters

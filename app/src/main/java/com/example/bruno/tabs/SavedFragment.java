@@ -18,6 +18,8 @@ import java.util.Date;
  * Created by bruno on 22/08/16.
  */
 public class SavedFragment extends Fragment {
+    private ListView listView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -30,13 +32,23 @@ public class SavedFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Attach the adapter to a ListView
+        listView = (ListView) view.findViewById(R.id.lvSavedItems);
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         // Construct the data source
         final ArrayList<Item> items = ItemsDatabaseHelper.getInstance(getContext()).getAllItems();
 
         // Create the adapter to convert the array to views
         SavedItemAdapter adapter = new SavedItemAdapter(getContext(), items);
-        // Attach the adapter to a ListView
-        ListView listView = (ListView) view.findViewById(R.id.lvSavedItems);
+
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -49,6 +61,5 @@ public class SavedFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
     }
 }

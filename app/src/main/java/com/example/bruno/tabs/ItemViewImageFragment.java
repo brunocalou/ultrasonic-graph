@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import java.util.Date;
 
@@ -47,5 +48,32 @@ public class ItemViewImageFragment extends HomeImageFragment {
     public void setItem(Item item) {
         Log.d(getClass().getSimpleName(), "Set item" + item.name);
         this.item = item;
+    }
+
+    public void saveItem() {
+        saveItem(item);
+    }
+
+    @Override
+    protected void saveItem(Item item) {
+        item.filtersConfiguration.contrast = contrast.getContrast();
+
+        if (ItemsDatabaseHelper.getInstance(getContext()).updateFiltersConfiguration(item.filtersConfiguration) > 0) {
+            Toast toast = Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            Toast toast = Toast.makeText(getContext(), "Failed to save", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
+
+    public void deleteItem() {
+        if (ItemsDatabaseHelper.getInstance(getContext()).deleteItem(item) > 0) {
+            Toast toast = Toast.makeText(getContext(), "Deleted", Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            Toast toast = Toast.makeText(getContext(), "Failed to delete", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 }

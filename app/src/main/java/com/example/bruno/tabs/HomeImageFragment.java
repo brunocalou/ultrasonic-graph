@@ -110,6 +110,9 @@ public class HomeImageFragment extends Fragment {
         if (ItemsDatabaseHelper.getInstance(getContext()).addItem(item) != -1) {
             Toast toast = Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT);
             toast.show();
+        } else {
+            Toast toast = Toast.makeText(getContext(), "Failed to save", Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 
