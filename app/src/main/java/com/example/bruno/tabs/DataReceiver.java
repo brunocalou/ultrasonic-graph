@@ -18,7 +18,7 @@ public class DataReceiver {
     private int bitmap_height = Item.HEIGHT_MAP_HEIGHT;
     private int MAX_X = 1023;
     private int MAX_Y = 1023;
-    private double MAX_Z = 40000.0d;
+    private static double MAX_Z = 40000.0d;
     private int [][] heightMap;
     private ArrayList<OnBitmapChangedListener> bitmap_changed_listeners;
 
@@ -36,7 +36,7 @@ public class DataReceiver {
         bitmap = Bitmap.createBitmap(bitmap_width, bitmap_height, Bitmap.Config.ARGB_8888);
         clearBitmap();
         heightMap = new int[bitmap_width][bitmap_height];
-//        fillWithRandomData();
+        fillWithRandomData();
     }
 
     public void startConnection(BluetoothSocket socket) {
@@ -124,7 +124,12 @@ public class DataReceiver {
         bitmap_changed_listeners.add(listener);
     }
 
-    private int getColor(int z) {
+    /**
+     * Get the color of a height map value z
+     * @param z - the height
+     * @return the color associated with the height z
+     */
+    public static int getColor(int z) {
         // Color format = ARGB
         int color = 0x000000FF;
         int color_channel = (int) (255 * (1 - (Math.abs(z) / MAX_Z))); //The "1 - " inverts the color

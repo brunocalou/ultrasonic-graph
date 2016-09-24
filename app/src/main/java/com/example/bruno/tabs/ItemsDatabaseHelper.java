@@ -32,14 +32,14 @@ public class ItemsDatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_FILTERS = "filters";
 
     // Item Table Columns
-    private static final String KEY_ITEM_ID = "id";
+    private static final String KEY_ITEM_ID = "_id";
     private static final String KEY_ITEM_FILTERS_ID_FK = "filtersId"; //Foreign key for the filters table
     private static final String KEY_ITEM_NAME = "name";
     private static final String KEY_ITEM_CREATION_DATE = "creationDate";
     private static final String KEY_ITEM_HEIGHT_MAP = "heightMap";
 
     // Filter table columns
-    private static final String KEY_FILTERS_ID = "id";
+    private static final String KEY_FILTERS_ID = "_id";
     private static final String KEY_FILTERS_CONTRAST_VALUE = "contrast";
 
     /**
@@ -168,6 +168,50 @@ public class ItemsDatabaseHelper extends SQLiteOpenHelper {
         return filtersConfiguration._id;
     }
 
+    public Item getItem(long id) {
+        Item item = new Item();
+
+        // SELECT * FROM ITEMS i as i
+        // LEFT OUTER JOIN FILTERS
+        // ON i.KEY_ITEM_FILTERS_ID_FK = FILTERS.KEY_FILTERS_ID
+        // WHERE i.KEY_ITEM_ID = id
+        String ITEMS_SELECT_QUERY=
+                String.format("SELECT * FROM %s as i LEFT OUTER JOIN %s ON i.%s = %s.%s WHERE i.%s = ?",
+                        TABLE_ITEMS,
+                        TABLE_FILTERS,
+                        KEY_ITEM_FILTERS_ID_FK,
+                        TABLE_FILTERS, KEY_FILTERS_ID,
+                        KEY_ITEM_ID);
+
+        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
+        // disk space scenarios)
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(ITEMS_SELECT_QUERY, new String[]{Long.toString(id)});
+        try {
+            if (cursor.moveToFirst()) {
+                Date date = new SimpleDateFormat(Item.dateFormat).parse(cursor.getString(cursor.getColumnIndex(KEY_ITEM_CREATION_DATE)));
+
+                FiltersConfiguration newFiltersConfiguration = new FiltersConfiguration();
+                newFiltersConfiguration.contrast = Integer.valueOf(cursor.getString(cursor.getColumnIndex(KEY_FILTERS_CONTRAST_VALUE)));
+                newFiltersConfiguration._id = Integer.valueOf(cursor.getString(cursor.getColumnIndex(KEY_FILTERS_ID)));
+
+                item._id = Long.valueOf(cursor.getString(cursor.getColumnIndex(KEY_ITEM_ID)));
+                item.name = cursor.getString(cursor.getColumnIndex(KEY_ITEM_NAME));
+                item.creationDate = date;
+                item.filtersConfiguration = newFiltersConfiguration;
+                item.setFormattedHeightMap(cursor.getString(cursor.getColumnIndex(KEY_ITEM_HEIGHT_MAP)));
+            }
+        } catch (Exception e) {
+            Log.d(getClass().getSimpleName(), "Error while trying to get items from database");
+            e.printStackTrace();
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return item;
+    }
+
     public ArrayList<Item> getAllItems() {
         ArrayList<Item> items = new ArrayList<>();
 
@@ -195,7 +239,9 @@ public class ItemsDatabaseHelper extends SQLiteOpenHelper {
 
                     FiltersConfiguration newFiltersConfiguration = new FiltersConfiguration();
                     newFiltersConfiguration.contrast = Integer.valueOf(cursor.getString(cursor.getColumnIndex(KEY_FILTERS_CONTRAST_VALUE)));
+                    newFiltersConfiguration._id = Long.valueOf(cursor.getString(cursor.getColumnIndex(KEY_FILTERS_ID)));
 
+                    newItem._id = Long.valueOf(cursor.getString(cursor.getColumnIndex(KEY_ITEM_ID)));
                     newItem.name = cursor.getString(cursor.getColumnIndex(KEY_ITEM_NAME));
                     newItem.creationDate = date;
                     newItem.filtersConfiguration = newFiltersConfiguration;

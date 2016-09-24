@@ -81,4 +81,8 @@ class GraphView extends View {
         canvas.drawBitmap(filtered_bitmap, null, bitmap_rect, paint);
 
     }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
 }

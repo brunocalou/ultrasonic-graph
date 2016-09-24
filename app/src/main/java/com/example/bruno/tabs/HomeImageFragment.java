@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import java.util.Date;
 
@@ -15,10 +16,11 @@ import java.util.Date;
  * Created by bruno on 08/05/16.
  */
 public class HomeImageFragment extends Fragment {
-    private SeekBar seek_bar;
-    private ContrastFilter contrast;
-    private GraphView graph_view;
-    private DataReceiver data_receiver;
+    protected SeekBar seek_bar;
+    protected ContrastFilter contrast;
+    protected GraphView graph_view;
+    protected DataReceiver data_receiver;
+    protected FilterList filter_list;
 
     // Store instance variables based on arguments passed
     @Override
@@ -36,7 +38,7 @@ public class HomeImageFragment extends Fragment {
         graph_view = (GraphView) view.findViewById(R.id.graphView);
 
         //Add filters
-        final FilterList filter_list = graph_view.getFilterList();
+        filter_list = graph_view.getFilterList();
         filter_list.add(contrast);
 
         seek_bar = (SeekBar) view.findViewById(R.id.seekBar);
@@ -57,6 +59,12 @@ public class HomeImageFragment extends Fragment {
             }
         });
 
+        setupDataReceiver();
+
+        return view;
+    }
+
+    public void setupDataReceiver() {
         graph_view.setBitmap(data_receiver.getBitmap());
 
         data_receiver.addOnBitmapChangedListener(new OnBitmapChangedListener() {
@@ -79,7 +87,6 @@ public class HomeImageFragment extends Fragment {
                 graph_view.applyFilters();
             }
         });
-        return view;
     }
 
     @Override
@@ -89,21 +96,27 @@ public class HomeImageFragment extends Fragment {
         graph_view.applyFilters();
     }
 
-    private void setFilterValue(int value) {
+    protected void setFilterValue(int value) {
         contrast.setContrast(value);
         seek_bar.setProgress(seek_bar.getMax() / 2 + value);
     }
 
-    public void save(String name) {
-        Log.d(getClass().getSimpleName(), "Saving " + name);
-        Item item = new Item();
-        item.name = name;
+    protected void saveItem(Item item) {
         item.creationDate = new Date();
         item.heightMap = DataReceiver.getInstance().getHeightMap();
         item.filtersConfiguration = new FiltersConfiguration();
         item.filtersConfiguration.contrast = contrast.getContrast();
 
-        ItemsDatabaseHelper.getInstance(getContext()).addItem(item);
+        if (ItemsDatabaseHelper.getInstance(getContext()).addItem(item) != -1) {
+            Toast toast = Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
 
+    public void saveItem(String name) {
+        Log.d(getClass().getSimpleName(), "Saving " + name);
+        Item item = new Item();
+        item.name = name;
+        saveItem(item);
     }
 }

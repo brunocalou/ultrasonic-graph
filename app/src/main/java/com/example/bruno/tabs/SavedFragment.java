@@ -1,11 +1,14 @@
 package com.example.bruno.tabs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -28,13 +31,24 @@ public class SavedFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Construct the data source
-        ArrayList<Item> items = ItemsDatabaseHelper.getInstance(getContext()).getAllItems();
+        final ArrayList<Item> items = ItemsDatabaseHelper.getInstance(getContext()).getAllItems();
 
         // Create the adapter to convert the array to views
         SavedItemAdapter adapter = new SavedItemAdapter(getContext(), items);
         // Attach the adapter to a ListView
         ListView listView = (ListView) view.findViewById(R.id.lvSavedItems);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(getClass().getSimpleName(), "Clicked on item" + position);
+                Item item = items.get(position);
+                Intent intent = new Intent(getContext(), ItemViewActivity.class);
+                intent.putExtra(ItemViewActivity.ITEM_ID, item._id);
+                startActivity(intent);
+            }
+        });
 
     }
 }

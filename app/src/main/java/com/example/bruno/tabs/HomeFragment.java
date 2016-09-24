@@ -157,7 +157,7 @@ public class HomeFragment extends Fragment implements SaveNewItemDialogFragment.
         save_button.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                //Open a dialog asking the name of the item to save
+                //Open a dialog asking the name of the item to ave
                 showSaveDialog();
                 return true;
             }
@@ -187,6 +187,6 @@ public class HomeFragment extends Fragment implements SaveNewItemDialogFragment.
 
     @Override
     public void onFinishSaveNewItemDialog(String name) {
-        homeImageFragment.save(name);
+        homeImageFragment.saveItem(name);
     }
 }

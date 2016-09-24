@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <io.karim.MaterialTabs
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?attr/colorPrimary"
+        app:mtIndicatorColor="@color/colorAccent"
+        app:mtUnderlineColor="@color/colorAccent"
+        app:mtUnderlineHeight="0dp"
+        app:mtIndicatorHeight="2dp"
+        app:mtTabPaddingLeftRight="12dp"
+        app:mtSameWeightTabs="true"
+        app:mtTextAllCaps="true"
+        app:mtPaddingMiddle="false"
+        app:mtTextColorSelected="#ffffffff"
+        android:textColor="#ffffffff"
+        app:mtMrlRippleColor="#ffffffff"
+        app:mtMrlRippleHighlightColor="#40ffffff"
+        app:mtMrlRippleDiameter="0.0dp"
+        app:mtMrlRippleOverlay="false"
+        app:mtMrlRippleAlpha="0.2"
+        app:mtMrlRippleDuration="400"
+        app:mtMrlRippleFadeDuration="100"
+        app:mtMrlRippleDelayClick="false"
+        app:mtMrlRipplePersistent="false"
+        app:mtMrlRippleInAdapter="false"
+        app:mtMrlRippleRoundedCorners="0dp"
+        />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:context=".MainActivity" />
+
+</LinearLayout>
