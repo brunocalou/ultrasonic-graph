@@ -8,7 +8,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:background="@color/backgroundColor">
 
         <com.example.bruno.tabs.GraphView
             android:layout_width="match_parent"
@@ -16,9 +17,10 @@
             android:id="@+id/graphView"
             android:layout_gravity="center_horizontal"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="0dp"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="0dp" >
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginBottom="@dimen/abc_action_bar_default_height_material">
 
         </com.example.bruno.tabs.GraphView>
 

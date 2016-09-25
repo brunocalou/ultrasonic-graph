@@ -23,6 +23,9 @@ public class ItemViewImageFragment extends HomeImageFragment {
     public void setupDataReceiver() {
         // Create a new bitmap based on the DataReceiver's bitmap characteristics
         graph_view.setBitmap(Bitmap.createBitmap(data_receiver.getBitmap()));
+        if (filteredBitmap != null) {
+            graph_view.setFilteredBitmap(filteredBitmap);
+        }
     }
 
     @Override

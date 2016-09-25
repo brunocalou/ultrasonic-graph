@@ -3,6 +3,7 @@ package com.example.bruno.tabs;
 import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -36,6 +37,7 @@ public class HomeFragment extends Fragment implements SaveNewItemDialogFragment.
     private MenuItemImpl disconnect_button;
     private MenuItemImpl save_button;
     private HomeImageFragment homeImageFragment;
+    private HomeHistogramFragment homeHistogramFragment;
 
     @Nullable
     @Override
@@ -70,6 +72,11 @@ public class HomeFragment extends Fragment implements SaveNewItemDialogFragment.
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -78,6 +85,11 @@ public class HomeFragment extends Fragment implements SaveNewItemDialogFragment.
         HomePagerAdapter homePagerAdapter = new HomePagerAdapter(getChildFragmentManager(), getContext());
         pager.setAdapter(homePagerAdapter);
         homeImageFragment = homePagerAdapter.getHomeImageFragment();
+        homeHistogramFragment = homePagerAdapter.getHomeHistogramFragment();
+
+        Bitmap filteredBitmap = Bitmap.createBitmap(DataReceiver.getInstance().getBitmap());
+        homeImageFragment.setFilteredBitmap(filteredBitmap);
+        homeHistogramFragment.setBitmap(filteredBitmap);
 
         // Bind the tabs to the ViewPager
         MaterialTabs tabs = (MaterialTabs) view.findViewById(R.id.tabs);
@@ -136,6 +148,7 @@ public class HomeFragment extends Fragment implements SaveNewItemDialogFragment.
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 DataReceiver.getInstance().clearBitmap();
+                homeHistogramFragment.clear();
                 return true;
             }
         });

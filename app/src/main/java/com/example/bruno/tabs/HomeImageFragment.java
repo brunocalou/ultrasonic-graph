@@ -21,6 +21,7 @@ public class HomeImageFragment extends Fragment {
     protected GraphView graph_view;
     protected DataReceiver data_receiver;
     protected FilterList filter_list;
+    protected Bitmap filteredBitmap;
 
     // Store instance variables based on arguments passed
     @Override
@@ -59,14 +60,17 @@ public class HomeImageFragment extends Fragment {
             }
         });
 
+        graph_view.setBitmap(data_receiver.getBitmap());
+        if (filteredBitmap != null) {
+            graph_view.setFilteredBitmap(filteredBitmap);
+        }
+
         setupDataReceiver();
 
         return view;
     }
 
     public void setupDataReceiver() {
-        graph_view.setBitmap(data_receiver.getBitmap());
-
         data_receiver.addOnBitmapChangedListener(new OnBitmapChangedListener() {
 
             Bitmap filtered_bitmap = graph_view.getFilteredBitmap();
@@ -76,7 +80,7 @@ public class HomeImageFragment extends Fragment {
             }
 
             @Override
-            public void onPixelChanged(int x, int y, int old_pixel, int new_pixel) {
+            public void onPixelChanged(int x, int y, int old_pixel, int new_pixel, boolean is_new) {
                 filtered_bitmap.setPixel(x, y, new_pixel);
                 filter_list.apply(filtered_bitmap, x, y);
                 graph_view.postInvalidate();
@@ -121,5 +125,12 @@ public class HomeImageFragment extends Fragment {
         Item item = new Item();
         item.name = name;
         saveItem(item);
+    }
+
+    public void setFilteredBitmap(Bitmap filteredBitmap) {
+        this.filteredBitmap = filteredBitmap;
+        if (graph_view != null) {
+            graph_view.setFilteredBitmap(filteredBitmap);
+        }
     }
 }

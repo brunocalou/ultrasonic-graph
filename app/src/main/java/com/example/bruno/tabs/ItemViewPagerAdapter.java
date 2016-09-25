@@ -12,11 +12,13 @@ public class ItemViewPagerAdapter extends FragmentPagerAdapter {
     private static int NUM_ITEMS = 2;
     private Context context;
     private ItemViewImageFragment itemViewImageFragment;
+    private ItemViewHistogramFragment itemViewHistogramFragment;
 
     public ItemViewPagerAdapter(FragmentManager fragmentManager, Context context) {
         super(fragmentManager);
         this.context = context;
         itemViewImageFragment = new ItemViewImageFragment();
+        itemViewHistogramFragment = new ItemViewHistogramFragment();
     }
 
     // Returns total number of pages
@@ -32,7 +34,7 @@ public class ItemViewPagerAdapter extends FragmentPagerAdapter {
             case 0: // Image
                 return itemViewImageFragment;
             case 1: // Histogram
-                return new ItemViewImageFragment();
+                return itemViewHistogramFragment;
             default:
                 return null;
         }
@@ -53,5 +55,9 @@ public class ItemViewPagerAdapter extends FragmentPagerAdapter {
 
     public ItemViewImageFragment getItemViewImageFragment() {
         return itemViewImageFragment;
+    }
+
+    public ItemViewHistogramFragment getItemViewHistogramFragment() {
+        return itemViewHistogramFragment;
     }
 }

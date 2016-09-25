@@ -7,6 +7,6 @@ import android.graphics.Bitmap;
  */
 public abstract class OnBitmapChangedListener {
     public abstract  void onBitmapChanged(Bitmap bitmap);
-    public abstract void onPixelChanged(int x, int y, int old_pixel, int new_pixel);
+    public abstract void onPixelChanged(int x, int y, int old_pixel, int new_pixel, boolean is_new);
     public abstract void onBitmapCleared(Bitmap bitmap);
 }

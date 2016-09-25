@@ -29,6 +29,7 @@ public class ItemViewActivity extends AppCompatActivity {
     private ItemsDatabaseHelper itemsDatabaseHelper;
     private Item item;
     private ItemViewImageFragment itemViewImageFragment;
+    private ItemViewHistogramFragment itemViewHistogramFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,8 +56,18 @@ public class ItemViewActivity extends AppCompatActivity {
         ItemViewPagerAdapter itemViewPagerAdapter = new ItemViewPagerAdapter(getSupportFragmentManager(), getApplicationContext());
         pager.setAdapter(itemViewPagerAdapter);
 
+        Bitmap bitmap = Bitmap.createBitmap(item.heightMap.length, item.heightMap[0].length, Bitmap.Config.ARGB_8888);
         itemViewImageFragment = itemViewPagerAdapter.getItemViewImageFragment();
+        itemViewHistogramFragment = itemViewPagerAdapter.getItemViewHistogramFragment();
         itemViewImageFragment.setItem(item);
+
+        for (int i = 0; i < item.heightMap.length; i++) {
+            for (int j = 0; j < item.heightMap[i].length; j++) {
+                bitmap.setPixel(i, j, DataReceiver.getColor(item.heightMap[i][j]));
+            }
+        }
+        itemViewImageFragment.setFilteredBitmap(bitmap);
+        itemViewHistogramFragment.setBitmap(bitmap);
 
         // Bind the tabs to the ViewPager
         MaterialTabs tabs = (MaterialTabs) findViewById(R.id.tabs);

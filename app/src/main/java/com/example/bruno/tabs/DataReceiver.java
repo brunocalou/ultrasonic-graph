@@ -34,8 +34,8 @@ public class DataReceiver {
     private DataReceiver() {
         bitmap_changed_listeners = new ArrayList<>();
         bitmap = Bitmap.createBitmap(bitmap_width, bitmap_height, Bitmap.Config.ARGB_8888);
-        clearBitmap();
         heightMap = new int[bitmap_width][bitmap_height];
+        clearBitmap();
         fillWithRandomData();
     }
 
@@ -80,9 +80,16 @@ public class DataReceiver {
         try {
             String[] values = line.replace("s", "").replace("e", "").replace("\n", "").split(" ");
             if (values.length == 3) {
+                // Holds if the new height map value replaced an old value
+                // (already obtained, different from the initial value)
+                boolean isNew = false;
                 int x = Integer.parseInt(values[0]) * bitmap_width / MAX_X;
                 int y = Integer.parseInt(values[1]) * bitmap_height / MAX_Y;
                 int z = Integer.parseInt(values[2]);
+
+                if (heightMap[x][y] == -1) {
+                    isNew = true;
+                }
                 heightMap[x][y] = z;
 
                 int color = getColor(z);
@@ -92,7 +99,7 @@ public class DataReceiver {
                     // Notify change
                     for (OnBitmapChangedListener listener : bitmap_changed_listeners) {
                         listener.onBitmapChanged(bitmap);
-                        listener.onPixelChanged(x, y, old_color, color);
+                        listener.onPixelChanged(x, y, old_color, color, isNew);
                     }
                 }
             }
@@ -109,6 +116,9 @@ public class DataReceiver {
         for (int i = 0; i < bitmap.getWidth(); i++) {
             for (int j = 0; j < bitmap.getHeight(); j++) {
                 bitmap.setPixel(i, j, 0xFFFFFFFF);
+                // Fill height map with -1 so there can be a verification of new value when a height is added
+                // There is a new value when the old value is equals to -1
+                heightMap[i][j] = -1;
             }
         }
         for (OnBitmapChangedListener listener : bitmap_changed_listeners) {

@@ -37,6 +37,7 @@ class GraphView extends View {
         instance = this;
         filter_list = new FilterList();
         paint = new Paint();
+        paint.setColor(Color.BLACK);
         bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
         filtered_bitmap = Bitmap.createBitmap(bitmap);
 
@@ -71,18 +72,37 @@ class GraphView extends View {
         super.onDraw(canvas);
         if (bitmap_rect == null) {
             int y_border = 100;
-            bitmap_rect = new RectF(canvas.getWidth() / 6, y_border, canvas.getWidth() * 5 / 6, y_border + canvas.getWidth() * 2 / 3);
+            int left = 0;
+            int right = canvas.getWidth();
+            int bottom = canvas.getHeight();
+            int top = 0;
+            // Make it a centralized square
+            if (right > bottom) {
+                right = bottom;
+            } else {
+                bottom = right;
+            }
+
+            //Centralize
+            int dx = (canvas.getWidth() - right) / 2;
+            int dy = (canvas.getHeight() - bottom) / 2;
+            left += dx;
+            right += dx;
+            bottom += dy;
+            top += dy;
+            bitmap_rect = new RectF(left, top, right, bottom);
         }
-        paint.setColor(Color.WHITE);
-        canvas.drawPaint(paint);
-
-        paint.setColor(Color.BLACK);
-
+//        paint.setColor(Color.WHITE);
+//        canvas.drawPaint(paint);
         canvas.drawBitmap(filtered_bitmap, null, bitmap_rect, paint);
 
     }
 
     public Bitmap getBitmap() {
         return bitmap;
+    }
+
+    public void setFilteredBitmap(Bitmap filteredBitmap) {
+        this.filtered_bitmap = filteredBitmap;
     }
 }
