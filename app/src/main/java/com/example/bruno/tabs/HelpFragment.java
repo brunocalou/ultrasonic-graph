@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by bruno on 22/08/16.
+ * Fragment to show the help content
  */
 public class HelpFragment extends Fragment {
     @Nullable

@@ -10,10 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by bruno on 24/09/2016.
+ * HomeHistogramFragment holds a {@link Histogram} component and a button to refresh the histogram.
+ * Note that the histogram will not be updated as data arrives, so a button is needed to redraw it
  */
 public class HomeHistogramFragment extends Fragment {
-    protected DataReceiver dataReceiver = DataReceiver.getInstance();
     protected Histogram<Integer> histogram;
     Bitmap bitmap;
 

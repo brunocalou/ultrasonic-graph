@@ -13,7 +13,8 @@ import android.widget.Toast;
 import java.util.Date;
 
 /**
- * Created by bruno on 08/05/16.
+ * HomeImageFragment is a fragment that holds a {@link GraphView} instance and a filter bar. When the
+ * bar value changes, the filter value is updated and the graph view is redrawn
  */
 public class HomeImageFragment extends Fragment {
     protected SeekBar seek_bar;

@@ -6,7 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 /**
- * Created by bruno on 08/05/16.
+ * ItemViewPagerAdapter is similar to {@link HomePagerAdapter}, but it uses
+ * {@link ItemViewImageFragment} and {@link ItemViewHistogramFragment}
  */
 public class ItemViewPagerAdapter extends FragmentPagerAdapter {
     private static int NUM_ITEMS = 2;

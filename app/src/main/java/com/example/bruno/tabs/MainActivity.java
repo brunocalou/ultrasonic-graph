@@ -1,6 +1,5 @@
 package com.example.bruno.tabs;
 
-import android.content.res.ColorStateList;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +11,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+/**
+ * MainActivity holds the {@link HomeFragment}, {@link SavedFragment} and the {@link HelpFragment}.
+ * It handles the navigation drawer and the back button
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Toolbar toolbar;

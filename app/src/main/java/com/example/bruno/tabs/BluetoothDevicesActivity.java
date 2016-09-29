@@ -17,16 +17,22 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Created by bruno on 16/08/16.
+ * BluetoothDevicesActivity is the activity responsible for showing the list of bluetooth devices.
+ * The activity will try to connect to the device as soon as the user selects it. Since this
+ * activity is started by other activity, it will return CONNECTION_SUCCESS or CONNECTION_ERROR
+ * to the intent so the activity that started it can know if there is a connection
+ * @see #CONNECTION_SUCCESS
+ * @see #CONNECTION_ERROR
  */
 public class BluetoothDevicesActivity extends Activity {
+    public static int CONNECTION_SUCCESS = 2;
+    public static int CONNECTION_ERROR = 3;
+
     ListView bt_devices_list_view;
     ArrayAdapter<String> bt_devices_adapter;
     ArrayList<String> bt_devices_names;
     ArrayList<BluetoothDevice> bt_devices;
-    public static String BLUETOOTH_DEVICE = "BLUETOOTH_DEVICE";
-    public static int CONNECTION_SUCCESS = 2;
-    public static int CONNECTION_ERROR = 3;
+
     BluetoothDevice device;
 
     @Override

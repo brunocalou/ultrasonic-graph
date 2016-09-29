@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.util.UUID;
 
 /**
- * Created by bruno on 16/08/16.
- * See https://developer.android.com/guide/topics/connectivity/bluetooth.html
+ * ConnectThread is a helper class to start a bluetooth communication as a client
+ * See <a href="https://developer.android.com/guide/topics/connectivity/bluetooth.html">Bluetooth guide</a>
  */
 public abstract class ConnectThread extends Thread {
     private final BluetoothSocket mmSocket;

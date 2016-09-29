@@ -10,13 +10,13 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * Created by bruno on 17/05/16.
+ * Custom {@link View} to show a bitmap image and apply filters to it. Used to show the incoming data
+ * @see DataReceiver
  */
 class GraphView extends View {
     private Bitmap bitmap;
     private Bitmap filtered_bitmap;
     private Paint paint;
-    private GraphView instance;
     private RectF bitmap_rect;
     private FilterList filter_list;
 
@@ -34,7 +34,6 @@ class GraphView extends View {
     }
 
     private void init() {
-        instance = this;
         filter_list = new FilterList();
         paint = new Paint();
         paint.setColor(Color.BLACK);
@@ -71,7 +70,6 @@ class GraphView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (bitmap_rect == null) {
-            int y_border = 100;
             int left = 0;
             int right = canvas.getWidth();
             int bottom = canvas.getHeight();
@@ -92,10 +90,7 @@ class GraphView extends View {
             top += dy;
             bitmap_rect = new RectF(left, top, right, bottom);
         }
-//        paint.setColor(Color.WHITE);
-//        canvas.drawPaint(paint);
         canvas.drawBitmap(filtered_bitmap, null, bitmap_rect, paint);
-
     }
 
     public Bitmap getBitmap() {

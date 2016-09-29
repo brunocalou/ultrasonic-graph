@@ -7,7 +7,12 @@ import java.util.Arrays;
 import java.util.Date;
 
 /**
- * Created by bruno on 17/09/2016.
+ * Item holds an item to be saved on the Database. It's composed of a name, creation date, heightmap
+ * and a {@link FiltersConfiguration}. These are the necessary data to recreate the {@link GraphView}
+ * image and the {@link Histogram}
+ * @see GraphView
+ * @see Histogram
+ * @see ItemsDatabaseHelper
  */
 public class Item {
     public static int HEIGHT_MAP_WIDTH = 16;
@@ -36,10 +41,21 @@ public class Item {
         this.filtersConfiguration = filtersConfiguration;
     }
 
+    /**
+     * Get a string on the {@link #dateFormat} format
+     * @return The formatted date
+     */
     public String getFormattedCreationDate() {
         return new SimpleDateFormat(Item.dateFormat).format(creationDate);
     }
 
+    /**
+     * <p>Get the {@link #heightMap} as a string. The structure for each line is: </p>
+     * <p>value-1 value-separator value-2 value-separator ... value-n line-separator</p>
+     * <p>e.g. for values = [1,2,3,4], value-separator = " " and line-separator = "\n", the line will be: </p>
+     * <p>1 2 3 4\n</p>
+     * @return The formatted height map
+     */
     public String getFormattedHeightMap() {
         StringBuilder sb = new StringBuilder();
 
@@ -54,6 +70,12 @@ public class Item {
         return sb.toString();
     }
 
+    /**
+     * <p>Set the {@link #heightMap} based on the formatted height map string</p>
+     * <p>Note that the string must have been exported using the {@link #getFormattedHeightMap()}
+     * method</p>
+     * @param formattedHeightMap The formatted height map as a string
+     */
     public void setFormattedHeightMap(String formattedHeightMap) {
         String [] lines = formattedHeightMap.split(HeightMapFormat.lineSeparator);
 

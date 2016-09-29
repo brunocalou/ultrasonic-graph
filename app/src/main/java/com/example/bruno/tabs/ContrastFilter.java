@@ -4,12 +4,13 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 /**
- * Created by bruno on 19/06/16.
- * Check the contrast filter formulas on http://www.dfstudios.co.uk/articles/programming/image-programming-algorithms/image-processing-algorithms-part-5-contrast-adjustment/
+ * <p>ContrastFilter applies contrast over a {@link Bitmap} image.</p>
+ * <p>Check the contrast filter formulas on
+ * <a href="http://www.dfstudios.co.uk/articles/programming/image-programming-algorithms/image-processing-algorithms-part-5-contrast-adjustment/">
+ *     Contrast filter algorithm</a></p>
  */
 public class ContrastFilter extends Filter {
     private double factor = 0.0; // Contrast correction factor
-
     private int contrast = 0; // Contrast level (from -255 to 255)
 
     public void setContrast(int contrast) {

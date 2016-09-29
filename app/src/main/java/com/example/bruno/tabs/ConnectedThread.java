@@ -8,8 +8,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Created by bruno on 16/08/16.
- * See https://developer.android.com/guide/topics/connectivity/bluetooth.html
+ * ConnectedThread is the class responsible for retrieving bluetooth data. After some data is
+ * retrieved, the {@link #onDataReadListener} is called.
+ * See <a href="https://developer.android.com/guide/topics/connectivity/bluetooth.html">Bluetooth guide</a>
  */
 public class ConnectedThread extends Thread {
     private final BluetoothSocket mmSocket;

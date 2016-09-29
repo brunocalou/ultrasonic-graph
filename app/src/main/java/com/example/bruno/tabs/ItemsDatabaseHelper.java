@@ -17,10 +17,10 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by bruno on 18/09/2016.
+ * ItemsDatabaseHelper is a class that manages the database
  */
 public class ItemsDatabaseHelper extends SQLiteOpenHelper {
-    //ItemsDatabaseHelper instance, needed to implement the singleton parttern
+    //ItemsDatabaseHelper instance, needed to implement the singleton pattern
     private static ItemsDatabaseHelper instance;
 
     // Database Info

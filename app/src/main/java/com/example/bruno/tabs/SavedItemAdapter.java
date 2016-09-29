@@ -11,32 +11,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
- * Created by bruno on 17/09/2016.
+ * SavedItemAdapter is used for connecting a view of a saved item with a list of save items
  */
 public class SavedItemAdapter extends ArrayAdapter<Item> {
 
     public SavedItemAdapter(Context context, ArrayList<Item> items) {
         super(context, R.layout.saved_item, items);
     }
-
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        // Get the data item for this position
-//        Item savedItem = getItem(position);
-//        // Check if an existing view is being reused, otherwise inflate the view
-//        if (convertView == null) {
-//            convertView = LayoutInflater.from(getContext()).inflate(R.layout.saved_item, parent, false);
-//        }
-//        // Lookup view for data population
-//        TextView tvName = (TextView) convertView.findViewById(R.id.tvName);
-//        TextView tvDate = (TextView) convertView.findViewById(R.id.tvDate);
-//        // Populate the data into the template view using the data object
-//        tvName.setText(savedItem.name);
-//        tvDate.setText(savedItem.creationDate.toString());
-//        // Return the completed view to render on screen
-//        return convertView;
-//    }
-
     // View lookup cache
     private static class ViewHolder {
         TextView name;

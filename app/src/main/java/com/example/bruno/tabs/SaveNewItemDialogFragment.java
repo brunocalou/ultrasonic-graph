@@ -15,7 +15,8 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 /**
- * Created by bruno on 18/09/2016.
+ * SaveNewItemDialogFragment defines a {@link Dialog} containing a {@link EditText} to edit the item
+ * name
  */
 public class SaveNewItemDialogFragment extends DialogFragment {
 

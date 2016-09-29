@@ -6,7 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 /**
- * Created by bruno on 08/05/16.
+ * HomePagerAdapter is used to get the correct fragment for each tab on the {@link HomeFragment}.
+ * The first tab is a {@link HomeImageFragment} fragment and the second a {@link HomeHistogramFragment}
  */
 public class HomePagerAdapter extends FragmentPagerAdapter {
     private static int NUM_ITEMS = 2;

@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by bruno on 22/08/16.
+ * SavedFragment holds a list of saved items. When an item is clicked, the user is redirected to
+ * the {@link ItemViewActivity}
+ * @see Item
  */
 public class SavedFragment extends Fragment {
     private ListView listView;
@@ -35,8 +37,6 @@ public class SavedFragment extends Fragment {
 
         // Attach the adapter to a ListView
         listView = (ListView) view.findViewById(R.id.lvSavedItems);
-
-
     }
 
     @Override

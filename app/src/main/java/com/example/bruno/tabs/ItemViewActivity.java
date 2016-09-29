@@ -22,7 +22,10 @@ import java.io.IOException;
 import io.karim.MaterialTabs;
 
 /**
- * Created by bruno on 23/09/2016.
+ * ItemViewActivity is responsible for retrieving an item from the database and showing it to the user.
+ * It's similar to the {@link HomeFragment}, but it does not use the {@link DataReceiver} to create
+ * the {@link GraphView}, it loads the {@link Item} and shows the {@link GraphView} and the
+ * {@link Histogram} accordingly
  */
 public class ItemViewActivity extends AppCompatActivity {
     public static String ITEM_ID = "item_id";
@@ -56,16 +59,21 @@ public class ItemViewActivity extends AppCompatActivity {
         ItemViewPagerAdapter itemViewPagerAdapter = new ItemViewPagerAdapter(getSupportFragmentManager(), getApplicationContext());
         pager.setAdapter(itemViewPagerAdapter);
 
+        // Create a bitmap to hold the generated item pixels
         Bitmap bitmap = Bitmap.createBitmap(item.heightMap.length, item.heightMap[0].length, Bitmap.Config.ARGB_8888);
         itemViewImageFragment = itemViewPagerAdapter.getItemViewImageFragment();
         itemViewHistogramFragment = itemViewPagerAdapter.getItemViewHistogramFragment();
         itemViewImageFragment.setItem(item);
 
+        // Fills the bitmap with the correct pixel values based on the item height map
         for (int i = 0; i < item.heightMap.length; i++) {
             for (int j = 0; j < item.heightMap[i].length; j++) {
                 bitmap.setPixel(i, j, DataReceiver.getColor(item.heightMap[i][j]));
             }
         }
+
+        // Set the bitmap om the itemViewImageFragment and the itemViewHistogramFragment. Note that
+        // the bitmap will be SHARED on these instances
         itemViewImageFragment.setFilteredBitmap(bitmap);
         itemViewHistogramFragment.setBitmap(bitmap);
 

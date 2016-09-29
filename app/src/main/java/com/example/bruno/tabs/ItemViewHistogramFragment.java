@@ -5,7 +5,8 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 /**
- * Created by bruno on 25/09/2016.
+ * ItemViewHistogramFragment is similar to {@link HomeHistogramFragment}, but it draws the fragment
+ * as soon as it's created, so the user doesn't have to click on the button
  */
 public class ItemViewHistogramFragment extends HomeHistogramFragment {
     @Override

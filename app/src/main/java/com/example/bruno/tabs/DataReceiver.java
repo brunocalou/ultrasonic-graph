@@ -7,7 +7,16 @@ import android.util.Log;
 import java.util.ArrayList;
 
 /**
- * Created by bruno on 16/08/16.
+ * <p>DataReceiver is a singleton class responsible for storing the received data and converting it to
+ * a {@link Bitmap} image. The data is received as a line in the following format:</p>
+ * <p>s x_value y_value z_value e\n</p>
+ * <p>The {@link #parseLine(String)} translates the x and y values to the i and j position of the
+ * {@link #heightMap} matrix. The z value is stored at the i,j position and it's converted to a pixel value
+ * so it can be stored at {@link #bitmap}</p>
+ * <p>Note that the conversion is made based on the the
+ * {@link #MAX_Z} value, and the pixel is in grey scale (red, green and blue components are the same)</p>
+ * @see #getColor(int)
+ * @see #parseLine(String)
  */
 public class DataReceiver {
 
@@ -16,10 +25,26 @@ public class DataReceiver {
     private Bitmap bitmap;
     private int bitmap_width = Item.HEIGHT_MAP_WIDTH;
     private int bitmap_height = Item.HEIGHT_MAP_HEIGHT;
+
+    /**
+     * Max x and y values coming from the bluetooth connection. It's used to convert the x value
+     * into a row and the y value into a column
+     * number on the {@link #heightMap}
+     */
     private int MAX_X = 1023;
     private int MAX_Y = 1023;
-    private static double MAX_Z = 40000.0d;
+
+    /**
+     * Max z value coming from the bluetooth connection. It's used to convert the z value into a
+     * pixel color
+     * @see #getColor(int)
+     */
     private int [][] heightMap;
+
+    /**Stores the incoming data*/
+    private static double MAX_Z = 40000.0d;
+
+    /**Callback to call when the bitmap has changed*/
     private ArrayList<OnBitmapChangedListener> bitmap_changed_listeners;
 
     ConnectedThread connection;
@@ -76,6 +101,12 @@ public class DataReceiver {
         }
     }
 
+    /**
+     * Parses the line and convert the incoming x, y values into a row and column and the z value
+     * into a pixel. The z value is stored on the {@link #heightMap} and the converted z value (to pixel)
+     * is stored on the {@link #bitmap}
+     * @param line The line to be converted
+     */
     private void parseLine(String line) {
         try {
             String[] values = line.replace("s", "").replace("e", "").replace("\n", "").split(" ");
@@ -154,7 +185,9 @@ public class DataReceiver {
         return color;
     }
 
-    // Method to fill the heightMap and the bitmap with random data. Used to debug only
+    /**
+     * Method to fill the heightMap and the bitmap with random data. Used to debug only
+     */
     public void fillWithRandomData() {
         for (int i = 0; i < heightMap.length; i++) {
             for (int j = 0; j < heightMap.length; j++) {

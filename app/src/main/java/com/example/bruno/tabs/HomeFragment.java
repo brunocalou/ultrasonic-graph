@@ -23,7 +23,8 @@ import android.widget.Toast;
 import io.karim.MaterialTabs;
 
 /**
- * Created by bruno on 22/08/16.
+ * HomeFragment is the fragment used for the home activity. When it's created, it checks if the
+ * bluetooth is on. If it's not, the user is prompted to turn it on
  */
 public class HomeFragment extends Fragment implements SaveNewItemDialogFragment.SaveNewItemDialogListener {
 
@@ -87,6 +88,10 @@ public class HomeFragment extends Fragment implements SaveNewItemDialogFragment.
         homeImageFragment = homePagerAdapter.getHomeImageFragment();
         homeHistogramFragment = homePagerAdapter.getHomeHistogramFragment();
 
+        /**
+         * The filtered bitmap on the {@link DataReceiver} is SHARED among
+         * the {@link #homeImageFragment} and the {@link #homeHistogramFragment} instances
+         */
         Bitmap filteredBitmap = Bitmap.createBitmap(DataReceiver.getInstance().getBitmap());
         homeImageFragment.setFilteredBitmap(filteredBitmap);
         homeHistogramFragment.setBitmap(filteredBitmap);

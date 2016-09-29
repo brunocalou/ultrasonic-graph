@@ -14,7 +14,8 @@ import android.widget.Toast;
 import java.util.Date;
 
 /**
- * Created by bruno on 08/05/16.
+ * ItemViewImageFragment is similar to {@link HomeImageFragment}, but it loads the bitmap and the
+ * filters from an {@link Item}
  */
 public class ItemViewImageFragment extends HomeImageFragment {
     Item item;

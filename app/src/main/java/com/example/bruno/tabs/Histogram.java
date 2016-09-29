@@ -11,11 +11,21 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Created by bruno on 24/09/2016.
+ * Custom {@link View} to plot a histogram
  */
 
 public class Histogram<T> extends View {
 
+    /**
+     * <p>The histogramData is stored in a sorted map. Each key is a histogram data and the value of each
+     * key is the number of times the key occurs</p>
+     * <p>Note that a key can contain only positive values. Once a key hits 0, it's removed from the
+     * map</p>
+     * <p>e.g.</p>
+     * <p>{ 0: 12 // the 0 occurred 12 times</p>
+     * <p>  2: 9  // the 2 occurred 9 times</p>
+     * <p>  5: 1} // the 5 occurred 1 time</p>
+     */
     TreeMap<T, Integer> histogramData = new TreeMap<>();
 
     // Drawing related variables
@@ -32,6 +42,10 @@ public class Histogram<T> extends View {
         paint.setStyle(Paint.Style.FILL);
     }
 
+    /**
+     * Increments the occurrence of the data #histogramData
+     * @param data The data to be incremented
+     */
     public void increment(T data) {
         Integer dataCounter = histogramData.get(data);
         if (dataCounter != null) {
@@ -43,6 +57,11 @@ public class Histogram<T> extends View {
         invalidate();
     }
 
+    /**
+     * Decrements the occurrence of the data. Note that when it reaches 0, the data is removed from
+     * the {@link #histogramData}
+     * @param data The data to be decremented
+     */
     public void decrement(T data) {
         Integer dataCounter = histogramData.get(data);
         if (dataCounter != null) {
@@ -103,9 +122,9 @@ public class Histogram<T> extends View {
             // canvas will not be divisible by the size of the histogram. The barWidth is integer,
             // so the histogram width will be less or equals to the canvas width
             int currentBarLeft = (canvas.getWidth() - barWidth * histogramData.size()) / 2;
+
             while (it.hasNext()) {
                 Map.Entry entry = (Map.Entry) it.next();
-//                T data = (T) entry.getKey();
                 Integer dataCounter = (Integer) entry.getValue();
 
                 canvas.drawRect(

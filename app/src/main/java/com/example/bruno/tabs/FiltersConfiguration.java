@@ -1,7 +1,9 @@
 package com.example.bruno.tabs;
 
 /**
- * Created by bruno on 18/09/2016.
+ * FiltersConfiguration holds all the filters values. It's used to associate an {@link Item} with many
+ * {@link Filter}s. It's useful when storing and retrieving the filters from the database
+ * @see ItemsDatabaseHelper
  */
 public class FiltersConfiguration {
     public long _id = -1;
