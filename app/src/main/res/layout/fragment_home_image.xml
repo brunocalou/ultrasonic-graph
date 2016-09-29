@@ -11,7 +11,7 @@
         android:weightSum="1"
         android:background="@color/backgroundColor">
 
-        <com.example.bruno.tabs.GraphView
+        <com.cbpf.ultrasonicgraph.GraphView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/graphView"
@@ -22,7 +22,7 @@
             android:layout_marginRight="48dp"
             android:layout_marginBottom="@dimen/abc_action_bar_default_height_material">
 
-        </com.example.bruno.tabs.GraphView>
+        </com.cbpf.ultrasonicgraph.GraphView>
 
         <RelativeLayout
             android:orientation="vertical"

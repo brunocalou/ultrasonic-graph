@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">App Name</string>
+    <string name="app_name">Ultrasonic Graph</string>
     <string name="image_tab">IMAGE</string>
     <string name="histogram_tab">HISTOGRAM</string>
     <string name="disconnect">Disconnect</string>
